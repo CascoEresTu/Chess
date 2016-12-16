@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <ostream>
 #include "position.hpp"
 #include "piece.hpp"
 #include "king.hpp"
@@ -10,8 +12,9 @@
 #include "pawn.hpp"
 
 using namespace std;
-
+void Cargar(Piece***);
 Piece*** crearTablero(int rows, int cols);
+void Guardar(Piece***);
 void destruirTablero(Piece*** tablero, int rows, int cols);
 void imprimir(Piece*** tablero);
 void chessInit(Piece*** tablero);
@@ -23,6 +26,7 @@ int main(int argc, char const *argv[]){
 	const int COLS = 8;
 	Piece*** tablero = crearTablero(ROWS,COLS);
 
+
 	string nombre1,nombre2;
 	cout<<"Jugador1 ingrese su nombre: "<<endl;
 	cin>>nombre1;
@@ -30,7 +34,7 @@ int main(int argc, char const *argv[]){
 	cin>>nombre2;
 	int turno=0;
 	bool gano=false;
-	char coordenada1, coordenada2;	
+	char coordenada1, coordenada2;
 	while(!gano){
 		bool valid = false;//variable de validacion
 		imprimir(tablero);
@@ -40,7 +44,17 @@ int main(int argc, char const *argv[]){
 			while(!valid){//ciclo de validacion
 				cout<<"Turno de: "<<nombre1<<endl;
 				cout<<"Ingrese columna de la pieza que desea mover: ";
-				cin>>x;
+				/*Validar que la posicion ingresada no se salga del rango
+
+				*/
+				while( !(x>0 && x<9) ){
+					cin>>x;
+					if(x>0 && x<9){
+						break;
+					}
+					std::cout << "Debe estar dentro del rango[1,8], por favor ingrese de nuevo: " << std::endl;
+				}
+
 				x--;
 				cout<<"Ingrese fila de la pieza que desea mover: ";
 				cin >> coordenada1;
@@ -61,12 +75,21 @@ int main(int argc, char const *argv[]){
 					cerr << "No se puede mover las piezas del juagdor opuesto" << endl;
 				}
 			}
-
+			Guardar(tablero);
 		}else{
 			while(!valid){//ciclo de validacion
 				cout<<"Turno de: "<<nombre2<<endl;
 				cout<<"Ingrese columna de la pieza que desea mover: ";
-				cin>>x;
+
+				/*Validar que la posicion ingresada no se salga del rango
+				*/
+				while( !(x>0 && x<9) ){
+					cin>>x;
+					if(x>0 && x<9){
+						break;
+					}
+					std::cout << "Debe estar dentro del rango[1,8], por favor ingrese de nuevo: " << std::endl;
+				}
 				x--;
 				cout<<"Ingrese fila de la pieza que desea mover: ";
 				cin >> coordenada1;
@@ -88,7 +111,9 @@ int main(int argc, char const *argv[]){
 					cerr << "No se puede mover las piezas del jugador opuesto" << endl;
 				}
 			}
+			Guardar(tablero);
 		}
+		//Guardar(tablero);
 		gano = ganar(tablero);
 	}
 
@@ -132,6 +157,8 @@ void imprimir(Piece*** tablero){//imprimir tablero
 	cout << endl;
 }
 void chessInit(Piece*** tablero){//Inicializar tablero
+	Cargar(tablero);
+/*
 	//piezas blancas
 	//torres
 	tablero[0][0] = new Rook('B',0,0);
@@ -167,7 +194,7 @@ void chessInit(Piece*** tablero){//Inicializar tablero
 	//peones
 	for (int i = 0; i < 8; ++i){
 		tablero[6][i] = new Pawn('N',i,6);
-	}
+	} */
 }
 int charToInt(char coordenada){
 	switch (coordenada){
@@ -222,4 +249,106 @@ bool ganar(Piece*** tablero){
 		return true;
 	}
 	return false;
+}
+
+void Guardar(Piece*** tablero ){
+
+	ofstream archivo;
+	archivo.open("Tablero.txt");
+
+	for (size_t i = 0; i < 8; i++) {
+		for (size_t j = 0; j < 8; j++) {
+			if(tablero[i][j] != NULL){
+				archivo<<tablero[i][j]->toString()<<";";
+			}
+			else{
+				archivo << " "<<";";
+			}
+		}
+		archivo<<endl;
+	}
+	archivo.close();
+
+}
+
+void Cargar(Piece*** tablero){
+	ifstream archivo;
+	archivo.open("Tablero.txt");
+
+	string fila = "";
+	string caracter = "";
+
+	for (size_t i = 0; i < 8; i++) {
+		  //getline(archivo,fila);
+		for (size_t j = 0; j < 8; j++) {
+				
+				getline(archivo,caracter,';');
+
+				//Cargar Peones
+				if(caracter == "P" ){
+					tablero[i][j] = new Pawn('N',i,j);
+				}
+
+				if(caracter == "p" ){
+					tablero[i][j] = new Pawn('B',i,j);
+
+				}
+				//Cargar Caballero
+				if(caracter == "C" ){
+					tablero[i][j] = new Knight('N',i,j);
+				}
+
+				if(caracter == "c" ){
+					tablero[i][j] = new Knight('B',i,j);
+
+				}
+
+				//Cargar Alfiles
+				if(caracter == "A" ){
+					tablero[i][j] = new Bishop('N',i,j);
+				}
+
+				if(caracter == "a" ){
+					tablero[i][j] = new Bishop('B',i,j);
+
+				}
+
+				//Cargar Caballero
+				if(caracter == "T" ){
+					tablero[i][j] = new Rook('N',i,j);
+				}
+
+				if(caracter == "t" ){
+					tablero[i][j] = new Rook('B',i,j);
+
+				}
+
+				//Cargar Rey
+				if(caracter == "R" ){
+					tablero[i][j] = new King('N',i,j);
+				}
+
+				if(caracter == "r" ){
+					tablero[i][j] = new King('B',i,j);
+
+				}
+
+				//Cargar Reina
+
+				if(caracter == "Q" ){
+					tablero[i][j] = new Queen('N',i,j);
+				}
+
+				if(caracter == "q" ){
+					tablero[i][j] = new Queen('B',i,j);
+				}
+				//Cargar Nulo
+				if(caracter == " "){
+					tablero[i][j] = NULL;
+				}
+		}
+
+	}
+	archivo.close();
+
 }
