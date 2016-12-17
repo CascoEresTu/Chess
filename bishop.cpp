@@ -31,19 +31,22 @@ bool Bishop::isValidMove(Piece***board, Position destiny){
 		if (this->getColor() == 'B'){
 			if(this->position.getY() > destiny.getY() && this->position.getX()>destiny.getX()){
 				//si la posicion esta en un punto bajo y se quiere mover a la izquierda
+				bool verify ;
 				contadorY=this->position.getY();
 				contadorX=this->position.getY();
 
 
-				while(true){
+				while(verify){
 					if (board[contadorY][contadorX] == NULL){
 						contadorY--;
 						contadorX--;
 					} else if (board[contadorY][contadorX]!=NULL && board[contadorY][contadorX]->getColor()=='B'){
-						return false;
+						verify = false;
+						//return false;
 					}
 					if(contadorX == destiny.getX() || contadorY==destiny.getY()){
-						break;
+						verify== false;
+						//break;
 					}
 
 
@@ -54,63 +57,72 @@ bool Bishop::isValidMove(Piece***board, Position destiny){
 
 			}else if(this->position.getY() > destiny.getY() && this->position.getX()<destiny.getX()){
 				//si la posicion esta en un punto bajo y se quiere mover a la derecha
+				bool verify;
 				contadorY=this->position.getY();
 				contadorX=this->position.getY();
 
 
-				while(true){
+				while(verify){
 
 					if (board[contadorY][contadorX] == NULL){
 						contadorY--;
 						contadorX++;
 
 					} else if (board[contadorY][contadorX]!=NULL && board[contadorY][contadorX]->getColor()=='B'){
-						return false;
+						verify = false;
+						//return false;
 					}
 					if(contadorX == destiny.getX() || contadorY==destiny.getY()){
-						break;
+						verify= false;
+						//break;
 					}
 				}
 				return true;
 
 			}else if(this->position.getY() < destiny.getY() && this->position.getX()>destiny.getX()){
 				//si la posicion esta en un punto alto y se quiere mover a la izquierda
+				bool verify;
 				contadorY=this->position.getY();
 				contadorX=this->position.getY();
 
 
-				while(true){
+				while(verify){
 
 					if (board[contadorY][contadorX] == NULL){
 						contadorY++;
 						contadorX--;
 
 					} else if (board[contadorY][contadorX]!=NULL && board[contadorY][contadorX]->getColor()=='B'){
-						return false;
+						verify = false;
+						//return false;
 					}
 					if(contadorX == destiny.getX() || contadorY==destiny.getY()){
-						break;
+						verify = false;
+						//break;
 					}
 				}
 				return true;
 
 			}else if(this->position.getY() < destiny.getY() && this->position.getX()<destiny.getX()){
 				// si la posicion esta en un punto alto y se quiere mover a la derecha
+				bool verify;
 				contadorY=this->position.getY();
 				contadorX=this->position.getY();
 
 
-				while(true){
+				while(verify){
 
 					if (board[contadorY][contadorX] == NULL){
 						contadorY++;
 						contadorX++;
 
 					} else if (board[contadorY][contadorX]!=NULL && board[contadorY][contadorX]->getColor()=='B'){
-						return false;
+						verify = false;
+						//return false;
 					}
 					if(contadorX == destiny.getX() || contadorY==destiny.getY()){
-						break;
+						verify= false;
+						//break;
 					}
 
 				}
@@ -121,22 +133,25 @@ bool Bishop::isValidMove(Piece***board, Position destiny){
 
 			if(this->position.getY() > destiny.getY() && this->position.getX()>destiny.getX()){
 				//si la posicion esta en un punto bajo y se quiere mover a la izquierda
+				bool verify;
 				contadorY=this->position.getY();
 				contadorX=this->position.getY();
 
 
 
-				while(true){
+				while(verify){
 
 					if (board[contadorY][contadorX] == NULL){
 						contadorY--;
 						contadorX--;
 
 					} else if (board[contadorY][contadorX]!=NULL && board[contadorY][contadorX]->getColor()=='N'){
-						return false;
+						verify =false;
+						//return false;
 					}
 					if(contadorX == destiny.getX() || contadorY==destiny.getY()){
-						break;
+						verify =false;
+						//break;
 					}
 
 				}
@@ -146,11 +161,12 @@ bool Bishop::isValidMove(Piece***board, Position destiny){
 
 			}else if(this->position.getY() > destiny.getY() && this->position.getX()<destiny.getX()){
 				//si la posicion esta en un punto bajo y se quiere mover a la derecha
+				bool verify;
 				contadorY=this->position.getY();
 				contadorX=this->position.getY();
 
 
-				while(true){
+				while(verify){
 
 
 					if (board[contadorY][contadorX] == NULL){
@@ -158,10 +174,12 @@ bool Bishop::isValidMove(Piece***board, Position destiny){
 						contadorX++;
 
 					} else if (board[contadorY][contadorX]!=NULL && board[contadorY][contadorX]->getColor()=='N'){
-						return false;
+						verify = false;
+						//return false;
 					}
 					if(contadorX == destiny.getX() || contadorY==destiny.getY()){
-						break;
+						verify = false;
+						//break;
 					}
 
 				}
@@ -170,22 +188,25 @@ bool Bishop::isValidMove(Piece***board, Position destiny){
 
 			}else if(this->position.getY() < destiny.getY() && this->position.getX()>destiny.getX()){
 				//si la posicion esta en un punto alto y se quiere mover a la izquierda
+				bool verify;
 				contadorY=this->position.getY();
 				contadorX=this->position.getY();
 
 
 
-				while(true){
+				while(verify){
 
 					if (board[contadorY][contadorX] == NULL){
 						contadorY++;
 						contadorX--;
 
 					} else if (board[contadorY][contadorX]!=NULL && board[contadorY][contadorX]->getColor()=='N'){
-						return false;
+						verify =false;
+						//return false;
 					}
 					if(contadorX == destiny.getX() || contadorY==destiny.getY()){
-						break;
+						verify = false;
+						//break;
 					}
 
 				}
@@ -194,21 +215,24 @@ bool Bishop::isValidMove(Piece***board, Position destiny){
 
 			}else if(this->position.getY() < destiny.getY() && this->position.getX()<destiny.getX()){
 				// si la posicion esta en un punto alto y se quiere mover a la derecha
+				bool verify;
 				contadorY=this->position.getY();
 				contadorX=this->position.getY();
 
 
-				while(true){
+				while(verify){
 
 					if (board[contadorY][contadorX] == NULL){
 						contadorY++;
 						contadorX++;
 
 					} else if (board[contadorY][contadorX]!=NULL && board[contadorY][contadorX]->getColor()=='N'){
-						return false;
+						verify = false;
+					//	return false;
 					}
 					if(contadorX == destiny.getX() || contadorY==destiny.getY()){
-						break;
+						verify = false;
+						//break;
 					}
 
 				}

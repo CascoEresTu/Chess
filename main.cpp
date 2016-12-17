@@ -24,7 +24,27 @@ bool ganar(Piece*** tablero);
 int main(int argc, char const *argv[]){
 	const int ROWS = 8;
 	const int COLS = 8;
-	Piece*** tablero = crearTablero(ROWS,COLS);
+	int opcion= 0;
+	//Se le da la opcion a cargar la partida mas reciente, o iniciar de nuevo;
+	std::cout << "Desea cargar partida? 1/2 " << std::endl;
+	while(!(opcion>0 && opcion <3)){
+		std::cin >> opcion;
+		if (opcion> 0 && opcion <3) {
+			 break;
+		}
+		std::cout << "vuelva a intentarlo" << std::endl;
+	}
+
+	Piece*** tablero =crearTablero(ROWS,COLS);
+
+	if (opcion ==1) {
+		Cargar(tablero );
+		std::cout << "Se continuara con la partida anterior." << std::endl;
+	}
+
+	if (opcion ==2) {
+		std::cout << "Se continuara con una nueva partida." << std::endl;
+	}
 
 
 	string nombre1,nombre2;
@@ -157,8 +177,7 @@ void imprimir(Piece*** tablero){//imprimir tablero
 	cout << endl;
 }
 void chessInit(Piece*** tablero){//Inicializar tablero
-	Cargar(tablero);
-/*
+
 	//piezas blancas
 	//torres
 	tablero[0][0] = new Rook('B',0,0);
@@ -194,7 +213,7 @@ void chessInit(Piece*** tablero){//Inicializar tablero
 	//peones
 	for (int i = 0; i < 8; ++i){
 		tablero[6][i] = new Pawn('N',i,6);
-	} */
+	}
 }
 int charToInt(char coordenada){
 	switch (coordenada){
@@ -265,23 +284,90 @@ void Guardar(Piece*** tablero ){
 				archivo << " "<<";";
 			}
 		}
-		archivo<<endl;
+		//archivo<<endl;
 	}
 	archivo.close();
 
 }
 
 void Cargar(Piece*** tablero){
+	ifstream primero;
+	primero.open("Tablero.txt");
 	ifstream archivo;
 	archivo.open("Tablero.txt");
 
 	string fila = "";
 	string caracter = "";
 
+	int cont = 1;
 	for (size_t i = 0; i < 8; i++) {
 		  //getline(archivo,fila);
 		for (size_t j = 0; j < 8; j++) {
-				
+				if(cont == 0){
+					getline(primero,fila);
+					if(fila[0] == 'P' ){
+						tablero[0][0] = new Pawn('N',i,j);
+					}
+
+					if(fila[0] == 'p' ){
+						tablero[0][0] = new Pawn('B',i,j);
+
+					}
+					//Cargar Caballero
+					if(fila[0] == 'C' ){
+						tablero[0][0] = new Knight('N',i,j);
+					}
+
+					if(fila[0] == 'c' ){
+						tablero[0][0] = new Knight('B',i,j);
+
+					}
+
+					//Cargar Alfiles
+					if(fila[0] == 'A' ){
+						tablero[0][0] = new Bishop('N',i,j);
+					}
+
+					if(fila[0] == 'a' ){
+						tablero[0][0] = new Bishop('B',i,j);
+
+					}
+
+					//Cargar Caballero
+					if(fila[0] == 'T' ){
+						tablero[0][0] = new Rook('N',i,j);
+					}
+
+					if(fila[0] == 't' ){
+						tablero[0][0] = new Rook('B',i,j);
+
+					}
+
+					//Cargar Rey
+					if(fila[0] == 'R' ){
+						tablero[0][0] = new King('N',i,j);
+					}
+
+					if(fila[0] == 'r' ){
+						tablero[0][0] = new King('B',i,j);
+
+					}
+
+					//Cargar Reina
+
+					if(fila[0] == 'Q' ){
+						tablero[0][0] = new Queen('N',i,j);
+					}
+
+					if(fila[0] == 'q' ){
+						tablero[0][0] = new Queen('B',i,j);
+					}
+					//Cargar Nulo
+					if(fila[0] == ' '){
+						tablero[0][0] = NULL;
+					}
+						cont++;
+				}
 				getline(archivo,caracter,';');
 
 				//Cargar Peones
